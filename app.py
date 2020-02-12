@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[7]:
+# In[2]:
 
 
 from PIL import Image
@@ -13,32 +13,33 @@ from PIL import Image
 import streamlit as st
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 
 
-# In[2]:
+# In[3]:
 
 
 def load_data(data):
     if data == 'Manhattan':
         df = pd.read_csv('displaycardManhattan.csv', encoding='utf-8')
         sn = pd.read_csv('Manhattan_snapshot.csv', encoding='utf-8')
-    
+
     elif data == 'Brooklyn':
         df = pd.read_csv('displaycardBrooklyn.csv', encoding='utf-8')
         sn = pd.read_csv('Brooklyn_snapshot.csv', encoding='utf-8')
-        
+
     elif data == 'Queens':
         df = pd.read_csv('displaycardQueens.csv', encoding='utf-8')
         sn = pd.read_csv('Queens_snapshot.csv', encoding='utf-8')
-      
+
     elif data == 'Staten Island':
         df = pd.read_csv('displaycardStatenIsland.csv', encoding='utf-8')
         sn = pd.read_csv('StatenIsland_snapshot.csv', encoding='utf-8')
-      
+
     elif data == 'The Bronx':
         df = pd.read_csv('displaycardBronx.csv', encoding='utf-8')
         sn = pd.read_csv('Bronx_snapshot.csv', encoding='utf-8')
-   
+
     return df, sn
 
 
@@ -103,25 +104,25 @@ st.markdown('## Feel Free to Play with it!')
 #df1 = df1.drop(columns='Unnamed: 0')
 
 
-# In[ ]:
+# In[62]:
 
 
 boros = ['Manhattan', 'Brooklyn', 'Queens', 'Staten Island', 'The Bronx']
 
 
-# In[24]:
+# In[63]:
 
 
 #named = df1.index.to_list()
 
 
-# In[ ]:
+# In[64]:
 
 
 boro = st.sidebar.selectbox('Choose a Borough', boros)
 
 
-# In[1]:
+# In[65]:
 
 
 df,sn = load_data(boro)
@@ -133,14 +134,14 @@ df,sn = load_data(boro)
 
 
 
-# In[ ]:
+# In[66]:
 
 
 df = df.set_index('restaurant')
 sn = sn.set_index('restaurant')
 
 
-# In[ ]:
+# In[67]:
 
 
 df = df.drop(columns = 'Unnamed: 0')
@@ -150,18 +151,38 @@ sn = sn.drop(columns = 'Unnamed: 0')
 # In[ ]:
 
 
+df['new col'] = range(0, len(df))
+sn['new col'] = range(0, len(sn))
+
+
+# In[122]:
+
+
+df.head()
+
+
+# In[1]:
+
+
 named = df.index.to_list()
+indexed = df['new col'].to_list()
 
 
 # In[ ]:
 
 
+dic = dict(zip(indexed, named))
+
+
+# In[69]:
+
+
 option = st.sidebar.selectbox(
     'Choose a Restaurant',
-     named)
+     indexed, format_func=lambda x: dic[x])
 
 
-# In[8]:
+# In[70]:
 
 
 st.balloons()
@@ -170,7 +191,13 @@ st.balloons()
 # In[ ]:
 
 
-st.write(df.loc[option])
+
+
+
+# In[71]:
+
+
+st.write(df.iloc[option, :4])
 
 
 # In[ ]:
@@ -179,10 +206,35 @@ st.write(df.loc[option])
 
 
 
-# In[9]:
+# In[ ]:
 
 
-st.bar_chart(df.loc[option], height=40)
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[108]:
+
+
+chart = df.iloc[option, :4]
+st.bar_chart(chart)
 
 
 # In[ ]:
@@ -194,37 +246,37 @@ st.markdown('## The below is a snapshot of some Positive and Negative Reviews:')
 # In[ ]:
 
 
-st.write(sn.loc[option]['Positive Review 1'])
+st.write(sn.iloc[option]['Positive Review 1'])
 
 
 # In[ ]:
 
 
-st.write(sn.loc[option]['Positive Review 2'])
+st.write(sn.iloc[option]['Positive Review 2'])
 
 
 # In[ ]:
 
 
-st.write(sn.loc[option]['Positive Review 3'])
+st.write(sn.iloc[option]['Positive Review 3'])
 
 
 # In[ ]:
 
 
-st.write(sn.loc[option]['Negative Review 1'])
+st.write(sn.iloc[option]['Negative Review 1'])
 
 
 # In[ ]:
 
 
-st.write(sn.loc[option]['Negative Review 2'])
+st.write(sn.iloc[option]['Negative Review 2'])
 
 
 # In[ ]:
 
 
-st.write(sn.loc[option]['Negative Review 3'])
+st.write(sn.iloc[option]['Negative Review 3'])
 
 
 # In[ ]:
@@ -232,3 +284,75 @@ st.write(sn.loc[option]['Negative Review 3'])
 
 
 
+
+# In[ ]:
+
+
+
+
+
+# In[4]:
+
+
+#df = pd.read_csv('displaycardQueens.csv', encoding='utf-8')
+#sn = pd.read_csv('Queens_snapshot.csv', encoding='utf-8')
+
+
+# In[5]:
+
+
+#df.head()
+
+
+# In[6]:
+
+
+#df = df.set_index('restaurant')
+#sn = sn.set_index('restaurant')
+
+
+# In[7]:
+
+
+#df = df.drop(columns = 'Unnamed: 0')
+#sn = sn.drop(columns = 'Unnamed: 0')
+
+
+# In[8]:
+
+
+#df['new col'] = range(0, len(df))
+#sn['new col'] = range(0, len(sn))
+
+
+# In[9]:
+
+
+#named = df.index.to_list()
+#indexed = df['new col'].to_list()
+
+
+# In[10]:
+
+
+#dic = dict(zip(indexed, named))
+
+
+# In[11]:
+
+
+#dic
+
+
+# In[118]:
+
+
+# tracker
+
+
+# In[ ]:
+
+
+#problem still is finding the entry.
+#Create dictionary? or create matching list, transpose?
+#how to save index location from matching name?
