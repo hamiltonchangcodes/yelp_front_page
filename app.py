@@ -59,7 +59,7 @@ st.write('by Hamilton Chang\n')
 
 
 image = Image.open('download.png')
-st.image(image, caption='Yelp!', use_column_width=False, format='PNG')
+st.image(image, caption='Yelp!', use_column_width=False, output_format='PNG')
 
 
 # In[ ]:
